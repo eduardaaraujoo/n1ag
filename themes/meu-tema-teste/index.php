@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php get_header(); ?>
 
 <main class="content">
@@ -14,7 +13,3 @@
 </main>
 
 <?php get_footer(); ?>
-=======
-<?php
-// Silence is golden.
->>>>>>> 0ec17bdfc9565618221f1046fa9ad5a31e646a4e
