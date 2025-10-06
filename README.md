@@ -19,3 +19,43 @@ Este projeto foi desenvolvido como parte do teste técnico da **N1.AG**, com o o
 
 ## 🧱 Estrutura de Pastas
 
+wp-content/
+└── themes/
+└── meu-tema-teste/
+├── front-page.php
+├── header.php
+├── footer.php
+├── functions.php
+├── assets/
+│ ├── css/
+│ │ └── main.css
+│ ├── js/
+│ └── img/
+└── README.md
+
+---
+
+
+## ⚙️ Tecnologias Utilizadas
+- **WordPress 6.x**
+- **HTML5 / CSS3 / PHP**
+- **JavaScript (Vanilla)**
+- **Grid & Flexbox**
+- **Mobile-first Design**
+
+---
+
+## 🧪 Como Executar Localmente
+1. Instale o [XAMPP](https://www.apachefriends.org) ou [LocalWP](https://localwp.com)
+2. Clone este repositório:
+   ```bash
+   git clone https://github.com/eduardaaraujoo/n1ag.git
+
+Mova o tema para:
+
+/htdocs/wordpress/wp-content/themes/
+
+
+- Ative o tema “Meu Tema Teste” no painel do WordPress.
+
+- Acesse a home e veja o layout 
