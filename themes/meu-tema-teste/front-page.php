@@ -313,6 +313,7 @@
               <div class="meta">
                 <span>📅 <?php echo get_the_date(); ?></span>
                 <span>👤 <?php the_author(); ?></span>
+                  <span>⏱ <?php echo meu_tema_tempo_leitura(); ?></span>
               </div>
               <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
               <p><?php echo wp_trim_words(get_the_excerpt(), 28); ?></p>
@@ -331,6 +332,8 @@
       <?php endif; ?>
     </div>
   </div>
+
+
 </section>
 
 

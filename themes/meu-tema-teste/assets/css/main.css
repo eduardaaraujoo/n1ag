@@ -950,124 +950,244 @@ section {
 
 
 /* ============================
-   BLOG (mobile-first)
+   BLOG (Figma match)
+   — bloco ÚNICO, substitui tudo de BLOG anterior —
 ============================ */
-.blog {
+:root{
+  /* ajuste aqui se o seu tema usar outras variáveis */
+  --azul: #0B2C4A;          /* títulos (H2 e H3) */
+  --azul-link: #0A48FF;     /* links/cta */
+  --cinza-texto: #5E6B7A;   /* parágrafos/meta */
+  --cinza-bg: #EEF3F7;      /* fundo da seção */
+  --amarelo: #F2B21A;       /* badge categoria */
+}
+
+.blog{
   background: var(--cinza-bg);
-  padding: 64px 0;
+  padding: 72px 0 56px;
   text-align: center;
 }
 
-.blog h2 {
+.blog h2{
   color: var(--azul);
-  font-size: 1.8rem;
+  font-size: clamp(24px, 2.8vw, 36px);
+  line-height: 1.2;
+  margin: 0 0 8px;
+  font-weight: 800;
 }
 
-.blog-subtitle {
-  color: #6b7280;
-  margin-top: 8px;
-  margin-bottom: 32px;
-  font-size: 1rem;
-  max-width: 640px;
-  margin-inline: auto;
-  line-height: 1.5;
+.blog-subtitle{
+  color: var(--cinza-texto);
+  max-width: 720px;
+  margin: 0 auto 32px;
+  font-size: 15px;
+  line-height: 1.55;
 }
 
-.grid-blog {
+/* largura do container da seção de blog para bater com o Figma */
+.blog .container{
+  max-width: 1120px;
+}
+
+/* GRID: 3 cards com largura fixa (iguais ao Figma) */
+.grid-blog{
   display: grid;
+  grid-template-columns: 1fr; /* mobile */
   gap: 24px;
+  justify-content: center;
 }
 
-.blog-card {
+/* Card */
+.blog-card{
+  width: 320px;                   /* <- largura do card igual ao Figma */
   background: #fff;
-  border-radius: 18px;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 6px 18px rgba(0,0,0,.06);
   text-align: left;
+  margin: 0 auto;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.blog-card:hover{
+  transform: translateY(-4px);
+  box-shadow: 0 10px 22px rgba(0,0,0,.08);
 }
 
-.blog-img {
-  position: relative;
-}
-
-.blog-img img {
+/* Imagem */
+.blog-img{ position: relative; }
+.blog-img img{
   width: 100%;
+  height: auto;
   display: block;
-  border-radius: 18px 18px 0 0;
+  border-radius: 16px 16px 0 0;
 }
 
-.blog-img .category {
+/* Badge categoria */
+.blog-img .category{
   position: absolute;
   top: 12px;
   left: 12px;
   background: var(--amarelo);
   color: #111;
-  font-weight: 600;
-  font-size: 0.85rem;
+  font-weight: 700;
+  font-size: 12px;
   padding: 4px 10px;
   border-radius: 8px;
 }
 
-.blog-content {
-  padding: 16px 20px 20px;
-}
+/* Conteúdo */
+.blog-content{ padding: 16px 20px 20px; }
 
-.meta {
+.blog-content .meta{
   display: flex;
+  gap: 12px;
   flex-wrap: wrap;
-  gap: 8px;
-  font-size: 0.9rem;
-  color: #6b7280;
-  margin-bottom: 12px;
+  align-items: center;
+  color: var(--cinza-texto);
+  font-size: 13px;
+  margin: 0 0 10px;
 }
 
-.blog-content h3 {
+/* Título do card */
+.blog-content h3{
+  margin: 0 0 8px;
+  font-size: 18px;               /* ~Figma */
+  line-height: 1.35;
   color: var(--azul);
-  font-size: 1.1rem;
-  margin-bottom: 8px;
+  font-weight: 800;
 }
-
-.blog-content p {
-  color: #444;
-  font-size: 0.95rem;
-  margin-bottom: 16px;
-  line-height: 1.5;
-}
-
-.read-more {
+.blog-content h3 a{
+  color: inherit;
   text-decoration: none;
-  font-weight: 600;
-  color: var(--azul);
+}
+.blog-content h3 a:hover{
+  text-decoration: underline;
 }
 
-.blog-actions {
-  margin-top: 40px;
+/* Parágrafo */
+.blog-content p{
+  color: var(--cinza-texto);
+  font-size: 15px;
+  line-height: 1.55;
+  margin: 0 0 12px;
 }
 
-.blog-actions .btn-outline {
-  border: 1px solid var(--azul);
+/* CTA */
+.read-more{
+  color: var(--azul-link);
+  font-weight: 700;
+  text-decoration: none;
+}
+.read-more:hover{ text-decoration: underline; }
+
+/* Botão "ver todos" */
+.blog-actions{ margin-top: 28px; }
+.blog-actions .btn-outline{
+  border: 2px solid var(--azul);
   border-radius: 10px;
-  padding: 0.7rem 1.2rem;
+  padding: .7rem 1.2rem;
   color: var(--azul);
-  font-weight: 600;
+  font-weight: 700;
   text-decoration: none;
   display: inline-block;
 }
+.blog-actions .btn-outline:hover{
+  background: var(--azul);
+  color: #fff;
+}
 
-/* ===== Desktop ===== */
-@media (min-width: 960px) {
-  .grid-blog {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .blog-content {
-    padding: 24px 28px 28px;
-  }
-
-  .blog-content h3 {
-    font-size: 1.25rem;
+/* Responsivo */
+@media (min-width: 768px){
+  .grid-blog{
+    grid-template-columns: repeat(2, 320px); /* tablet: 2 colunas */
   }
 }
+@media (min-width: 1100px){
+  .grid-blog{
+    grid-template-columns: repeat(3, 320px); /* desktop: 3 colunas, largura Figma */
+  }
+}
+
+/* Imagem com proporção fixa (como no Figma) */
+.blog-img img{
+  width: 100%;
+  aspect-ratio: 16 / 10;   /* deixa mais "baixa" e consistente */
+  object-fit: cover;
+  border-radius: 16px 16px 0 0;
+}
+
+/* Deixa o card mais alto de forma uniforme */
+.blog-card{
+  width: 320px;
+  min-height: 520px;        /* altura total aproximada do Figma */
+  display: flex;
+  flex-direction: column;
+}
+
+.blog-content{
+  padding: 18px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;                  /* ocupa a altura restante abaixo da imagem */
+}
+
+/* Meta com espaçamento */
+.blog-content .meta{
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: 13px;
+  color: var(--cinza-texto);
+  margin-bottom: 4px;
+}
+
+/* Título com altura mínima para alinhar os cards */
+.blog-content h3{
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.35;
+  color: var(--azul);
+  font-weight: 800;
+  min-height: 54px;         /* ~2 linhas */
+}
+
+/* Excerpt com altura mínima para padronizar a coluna */
+.blog-content p{
+  color: var(--cinza-texto);
+  font-size: 15px;
+  line-height: 1.55;
+  margin: 0;
+  min-height: 84px;         /* ~3-4 linhas */
+}
+
+/* Área "Ler mais" sempre na base do card */
+.read-more{
+  margin-top: auto;         /* empurra o CTA pra base do card */
+  color: var(--azul-link);
+  font-weight: 700;
+  text-decoration: none;
+}
+.read-more:hover{ text-decoration: underline; }
+
+/* Grid – 3 colunas centralizadas no desktop */
+@media (min-width: 1100px){
+  .grid-blog{
+    grid-template-columns: repeat(3, 320px);
+    justify-content: center;
+    gap: 28px;
+  }
+}
+
+
+
+
+
+
+
+
+
 
 
 /* ============================
