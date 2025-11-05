@@ -1181,7 +1181,32 @@ section {
 }
 
 
+/* Meta (autor • data • tempo) */
+.meta{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  color:#8A95A5;           /* cinza do Figma */
+  font-size:14px;
+  line-height:1;
+  margin-bottom:10px;
+}
+.meta-item{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  white-space:nowrap;      /* evita quebrar linha */
+}
+.meta .icon{
+  width:16px;
+  height:16px;
+  fill:none;
+  stroke:currentColor;     /* usa a cor da .meta */
+  stroke-width:2;
+}
 
+/* Se algum <span> da meta estiver virando bloco em outro lugar */
+.meta span{ display:inline-flex; align-items:center; gap:8px; }
 
 
 
@@ -1530,4 +1555,131 @@ main,
 /* Evita “respiro” entre footer e fim da página */
 .site-footer {
   margin-bottom: 0 !important;
+}
+
+
+/* === Barra de progresso (topo) === */
+#read-progress{
+  position: fixed; left:0; top:0;
+  height: 4px; width: 0%;
+  background: linear-gradient(90deg,#0A48FF,#7aa3ff);
+  z-index: 9999;
+}
+
+/* Container e bloco principal */
+.single-wrap .container{ max-width: 860px; }
+.breadcrumb{
+  display:flex; flex-wrap:wrap; gap:8px;
+  font-size:14px; color:#8A95A5; margin: 8px 0 10px;
+}
+.breadcrumb a{ color:#6b7a8a; text-decoration:none; }
+.breadcrumb a:hover{ text-decoration:underline; }
+.breadcrumb .current{ color:#9aa6b2; }
+
+/* Head */
+.single-head{ margin: 10px 0 12px; }
+.badge-cat{
+  display:inline-block; background:#F2B21A; color:#111;
+  font-weight:700; font-size:12px; padding:4px 10px; border-radius:8px; margin-bottom:10px;
+}
+.single-title{
+  font-size: clamp(28px, 3.2vw, 42px);
+  line-height:1.2; margin: 2px 0 8px; color:#0B2C4A; font-weight: 800;
+}
+.single-head .meta{ margin-bottom: 6px; }
+
+/* Hero */
+.single-hero{ margin: 14px 0 18px; border-radius: 18px; overflow:hidden; box-shadow: 0 12px 24px rgba(0,0,0,.06); }
+.single-hero img{ width:100%; aspect-ratio: 16/9; object-fit: cover; display:block; }
+.single-hero figcaption{ font-size:12px; color:#8A95A5; padding:8px 12px; background:#f3f6f8; }
+
+/* Share bar */
+.share-bar{ display:flex; align-items:center; gap:10px; margin: 6px 0 18px; flex-wrap:wrap; }
+.share-bar span{ color:#8A95A5; font-size:14px; }
+.share-btn{ background:#eef3f7; color:#0B2C4A; border-radius:10px; padding:8px 12px; text-decoration:none; font-weight:700; }
+.share-btn:hover{ background:#dfe9f1; }
+
+/* Conteúdo com “prosa” bonita */
+.prose{ color:#253041; font-size: 18px; line-height: 1.75; }
+.prose h2{ font-size:28px; margin: 24px 0 10px; color:#0B2C4A; }
+.prose h3{ font-size:22px; margin: 20px 0 10px; color:#0B2C4A; }
+.prose p{ margin: 0 0 16px; }
+.prose a{ color:#0A48FF; text-decoration: underline; }
+.prose blockquote{
+  margin: 18px 0; padding: 16px 18px; background:#f6f9fc; border-left:4px solid #0A48FF; border-radius:8px; color:#0B2C4A;
+}
+.prose pre, .prose code{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+.prose pre{
+  background:#0b1530; color:#e3e8ff; padding:16px; border-radius:12px; overflow:auto; box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
+}
+.prose img{ max-width:100%; height:auto; border-radius:12px; }
+
+/* Tags */
+.post-tags{ margin: 18px 0 6px; color:#5E6B7A; }
+.post-tags a{ display:inline-block; background:#eef3f7; padding:6px 10px; border-radius:999px; margin-right:8px; color:#0B2C4A; text-decoration:none; }
+.post-tags a:hover{ background:#dfe9f1; }
+
+/* Autor */
+.author-box{
+  display:flex; gap:16px; align-items:flex-start;
+  background:#f6f9fc; border-radius:16px; padding:16px; margin: 24px 0;
+}
+.author-avatar img{ border-radius:999px; }
+.author-info h3{ margin:0 0 6px; color:#0B2C4A; }
+.author-info p{ margin:0 0 6px; color:#5E6B7A; }
+.author-meta a{ font-weight:700; color:#0A48FF; text-decoration:none; }
+.author-meta a:hover{ text-decoration:underline; }
+
+/* Navegação */
+.post-nav{ display:flex; justify-content:space-between; gap:12px; margin: 28px 0 10px; }
+.post-nav a{ display:block; background:#eef3f7; border-radius:12px; padding:12px 14px; text-decoration:none; }
+.post-nav a span{ display:block; font-size:12px; color:#8A95A5; }
+.post-nav a strong{ color:#0B2C4A; }
+
+/* Relacionados reaproveita seus cards */
+.related{ margin: 38px 0 10px; }
+.related h2{ font-size: 22px; color:#0B2C4A; margin: 0 0 14px; }
+
+
+/* === Ajuste do espaçamento no final do post === */
+.comments-area {
+  margin-top: 40px;
+  margin-bottom: 80px; /* afasta do footer */
+}
+
+#respond {
+  background: #f6f9fc;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+}
+
+#respond input[type="text"],
+#respond input[type="email"],
+#respond textarea {
+  width: 100%;
+  max-width: 600px;
+  padding: 10px 12px;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  border: 1px solid #d6dbe3;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+#respond input[type="submit"] {
+  background: #0A48FF;
+  color: #fff;
+  font-weight: 600;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+#respond input[type="submit"]:hover {
+  background: #0737c8;
 }

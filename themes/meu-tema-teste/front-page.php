@@ -311,10 +311,31 @@
 
             <div class="blog-content">
               <div class="meta">
-                <span>📅 <?php echo get_the_date(); ?></span>
-                <span>👤 <?php the_author(); ?></span>
-                  <span>⏱ <?php echo meu_tema_tempo_leitura(); ?></span>
-              </div>
+  <span class="meta-item">
+    <!-- ícone pessoa -->
+    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.418 0-8 2.239-8 5v1h16v-1c0-2.761-3.582-5-8-5Z"/>
+    </svg>
+    <?php the_author(); ?>
+  </span>
+
+  <span class="meta-item">
+    <!-- ícone calendário -->
+    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M7 2v3m10-3v3M3 9h18M5 6h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Z"/>
+    </svg>
+    <?php echo esc_html( date_i18n( 'j M Y', get_post_time( 'U', true ) ) ); ?>
+  </span>
+
+  <span class="meta-item">
+    <!-- ícone relógio -->
+    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 7v5l4 2M12 22a10 10 0 1 0-10-10 10 10 0 0 0 10 10Z"/>
+    </svg>
+    <?php echo esc_html( meu_tema_tempo_leitura() ); ?>
+  </span>
+</div>
+
               <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
               <p><?php echo wp_trim_words(get_the_excerpt(), 28); ?></p>
               <a href="<?php the_permalink(); ?>" class="read-more">Ler mais →</a>
