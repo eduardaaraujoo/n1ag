@@ -49,5 +49,5 @@ Lazy loading de imagens e thumbnails;
 
 Redução de CSS e scripts desnecessários;
 
-Headings estruturados corretamente (<h1>, <h2>, etc.);
+Headings estruturados corretamente (h1, h2, etc.);
 
