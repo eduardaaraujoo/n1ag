@@ -69,3 +69,75 @@ function meu_tema_tempo_leitura( $post_id = null, $wpm = 200 ) {
   $min     = max(1, ceil($words / $wpm));
   return sprintf(__('%d min', 'meu-tema-teste'), $min);
 }
+
+// === Shortcode: [blog_grid qty="3"] ===
+function meu_tema_blog_grid_shortcode( $atts = [] ) {
+  $atts = shortcode_atts([
+    'qty' => 3,
+  ], $atts, 'blog_grid');
+
+  $q = new WP_Query([
+    'post_type'           => 'post',
+    'posts_per_page'      => intval($atts['qty']),
+    'ignore_sticky_posts' => 1,
+    'no_found_rows'       => true,
+  ]);
+
+  ob_start();
+  ?>
+  <div class="grid-blog">
+    <?php if ( $q->have_posts() ) : while ( $q->have_posts() ) : $q->the_post(); ?>
+      <article class="blog-card">
+        <div class="blog-img">
+          <a class="thumb" href="<?php the_permalink(); ?>">
+            <?php if ( has_post_thumbnail() ) the_post_thumbnail('card', ['loading'=>'lazy']); ?>
+          </a>
+          <?php
+            $cat = get_the_category();
+            if ( $cat ) {
+              echo '<span class="category">'.esc_html($cat[0]->name).'</span>';
+            }
+          ?>
+        </div>
+
+        <div class="blog-content">
+          <div class="meta">
+            <span>📅 <?php echo esc_html( date_i18n('j M Y', get_post_time('U', true)) ); ?></span>
+            <span>👤 <?php echo esc_html( get_the_author() ); ?></span>
+            <span>⏱ <?php echo esc_html( function_exists('meu_tema_tempo_leitura') ? meu_tema_tempo_leitura() : '' ); ?></span>
+          </div>
+
+          <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+          <p><?php echo esc_html( wp_trim_words( get_the_excerpt(), 28, '…' ) ); ?></p>
+          <a class="read-more" href="<?php the_permalink(); ?>">Ler mais →</a>
+        </div>
+      </article>
+    <?php endwhile; else: ?>
+      <p>Nenhum post encontrado.</p>
+    <?php endif; wp_reset_postdata(); ?>
+  </div>
+  <?php
+  return ob_get_clean();
+}
+add_shortcode('blog_grid', 'meu_tema_blog_grid_shortcode');
+
+// Ex.: [blog_grid qty="6" cat="noticias" tag="tech"]
+$atts = shortcode_atts([
+  'qty' => 3,
+  'cat' => '',
+  'tag' => '',
+  'orderby' => 'date',
+  'order' => 'DESC',
+], $atts, 'blog_grid');
+
+$args = [
+  'post_type'           => 'post',
+  'posts_per_page'      => intval($atts['qty']),
+  'ignore_sticky_posts' => 1,
+  'no_found_rows'       => true,
+  'orderby'            => sanitize_text_field($atts['orderby']),
+  'order'              => sanitize_text_field($atts['order']),
+];
+if ($atts['cat']) $args['category_name'] = sanitize_title($atts['cat']);
+if ($atts['tag']) $args['tag'] = sanitize_title($atts['tag']);
+$q = new WP_Query($args);

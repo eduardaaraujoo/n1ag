@@ -6,3 +6,5 @@ wp-content/aios/firewall/
 wp-content/wflogs/
 
 !wp-content/themes/meu-tema-teste/**
+
+!wp-content/themes/meu-tema-teste/**
