@@ -1,61 +1,60 @@
-# 🚀 N1.AG — Teste Técnico (WordPress)
+# 🧩 Projeto: Template WordPress – N1.AG
 
-**Desenvolvido por:** Eduarda Araújo  
-**Data:** Outubro de 2025  
-**Tipo:** Template WordPress responsivo (mobile-first)
-
----
-
-## 🧩 Sobre o Projeto
-Este projeto foi desenvolvido como parte do teste técnico da **N1.AG**, com o objetivo de implementar o layout do Figma de forma fiel, responsiva e semântica, seguindo boas práticas de código em **WordPress**.
-
-**Principais entregas:**
-- Layout fiel ao design do Figma  
-- Estrutura mobile-first  
-- Código limpo, comentado e modular  
-- Criação de seções dinâmicas (hero, sobre, serviços etc.)  
+## 🎯 Objetivo
+Correção e aprimoramento do template WordPress desenvolvido no teste técnico, garantindo total customização pelo Elementor e integração real com posts do WordPress, além de otimização de desempenho e SEO.
 
 ---
 
-## 🧱 Estrutura de Pastas
-
-wp-content/
-└── themes/
-└── meu-tema-teste/
-├── front-page.php
-├── header.php
-├── footer.php
-├── functions.php
-├── assets/
-│ ├── css/
-│ │ └── main.css
-│ ├── js/
-│ └── img/
-└── README.md
+## 🚀 Deploy de visualização
+🔗 **Demo online:** [https://n1ag-eduardaaraujoo.wasmer.app](https://n1ag-eduardaaraujoo.wasmer.app)
 
 ---
 
-
-## ⚙️ Tecnologias Utilizadas
-- **WordPress 6.x**
-- **HTML5 / CSS3 / PHP**
-- **JavaScript (Vanilla)**
-- **Grid & Flexbox**
-- **Mobile-first Design**
+## 💻 Repositório
+🔗 **Github:** https://github.com/eduardaaraujoo/n1ag
 
 ---
 
-## 🧪 Como Executar Localmente
-1. Instale o [XAMPP](https://www.apachefriends.org) ou [LocalWP](https://localwp.com)
-2. Clone este repositório:
-   ```bash
-   git clone https://github.com/eduardaaraujoo/n1ag.git
+## 🛠️ O que foi feito
 
-Mova o tema para:
+### 🔧 Estrutura e funcionalidades
+- Refatoração completa do tema `meu-tema-teste`;
+- Customização de **header**, **footer** e **páginas internas** conforme layout do Figma;
+- Menu dinâmico configurado via **Aparência → Menus (menu-principal)**;
+- Implementação de **menu hambúrguer mobile** com JS nativo;
+- Seção de blog integrada na home utilizando posts reais com o shortcode:  
+  ```php
+  [blog_grid qty="3"]
+  Adição da função meu_tema_tempo_leitura() para cálculo automático de tempo de leitura;
 
-/htdocs/wordpress/wp-content/themes/
+Estrutura de posts e páginas 100% gerenciada pelo painel WordPress;
 
+Responsividade aprimorada para todas as resoluções.
 
-- Ative o tema “Meu Tema Teste” no painel do WordPress.
+🎨 Estilo e UI
 
-- Acesse a home e veja o layout 
+Layout adaptado para o padrão visual da N1.AG;
+
+Ajustes de espaçamento, alinhamento e tipografia;
+
+Botão "Fale Conosco" destacado (CTA);
+
+Animações suaves no menu mobile;
+
+Hierarquia visual com base no design system (cores, tamanhos e contrastes).
+
+⚡ Desempenho e SEO
+
+Lazy loading de imagens e thumbnails;
+
+Redução de CSS e scripts desnecessários;
+
+Uso de filemtime() no enqueue para cache busting automático;
+
+Headings estruturados corretamente (<h1>, <h2>, etc.);
+
+Atributos alt e aria-* em elementos interativos;
+
+Compatibilidade total com o plugin Elementor Free;
+
+Testado com WordPress 6.7+ e PHP 8.2.
