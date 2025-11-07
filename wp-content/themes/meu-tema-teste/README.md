@@ -49,12 +49,5 @@ Lazy loading de imagens e thumbnails;
 
 Redução de CSS e scripts desnecessários;
 
-Uso de filemtime() no enqueue para cache busting automático;
-
 Headings estruturados corretamente (<h1>, <h2>, etc.);
 
-Atributos alt e aria-* em elementos interativos;
-
-Compatibilidade total com o plugin Elementor Free;
-
-Testado com WordPress 6.7+ e PHP 8.2.
