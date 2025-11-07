@@ -60,3 +60,12 @@ remove_action('wp_print_styles', 'print_emoji_styles');
 add_filter('get_custom_logo', function ($html) {
   return preg_replace('/(width|height)="\d*"\s/', '', $html);
 });
+
+// Tempo de leitura (ex.: "8 min")
+function meu_tema_tempo_leitura( $post_id = null, $wpm = 200 ) {
+  $post_id = $post_id ?: get_the_ID();
+  $content = get_post_field('post_content', $post_id);
+  $words   = str_word_count( wp_strip_all_tags( $content ) );
+  $min     = max(1, ceil($words / $wpm));
+  return sprintf(__('%d min', 'meu-tema-teste'), $min);
+}
