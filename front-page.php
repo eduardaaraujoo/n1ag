@@ -1,5 +1,27 @@
 <?php get_header(); ?>
 
+<?php
+get_header();
+
+// Se a página inicial estiver sendo editada/feita no Elementor,
+// renderiza o conteúdo do Elementor e sai.
+if ( is_front_page() && get_post_meta( get_the_ID(), '_elementor_edit_mode', true ) ) : ?>
+  <main id="conteudo" class="page-fullwidth">
+    <div class="container">
+      <?php while ( have_posts() ) : the_post(); the_content(); endwhile; ?>
+    </div>
+  </main>
+<?php
+  get_footer();
+  return; // impede de renderizar o HTML fixo abaixo
+endif;
+?>
+
+<!-- A PARTIR DAQUI fica o SEU HTML estático antigo da home
+     (Hero, Sobre, Serviços, etc.). Ele só será usado se a home
+     NÃO estiver feita no Elementor. -->
+
+
 <main>
   
 <!-- HERO -->
@@ -273,7 +295,7 @@
 
 
 
- <!-- BLOG -->
+ <!-- BLOG (dinâmico, com posts reais) -->
 <section id="blog" class="blog">
   <div class="container">
     <h2>Insights & Blog</h2>
@@ -281,64 +303,82 @@
       Fique por dentro das últimas tendências em tecnologia e transformação digital com nossos artigos especializados
     </p>
 
-    <div class="grid-blog">
-      <article class="blog-card">
-        <div class="blog-img">
-          <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/blog1.png' ); ?>" alt="O Futuro do Desenvolvimento Web">
-          <span class="category">Desenvolvimento</span>
-        </div>
-        <div class="blog-content">
-          <div class="meta">
-            <span>👤 Maria Santos</span>
-            <span>📅 10 Set 2024</span>
-            <span>⏱ 8 min</span>
-          </div>
-          <h3>O Futuro do Desenvolvimento Web: Tendências para 2024</h3>
-          <p>Descubra as principais tecnologias e frameworks que estão moldando o futuro do desenvolvimento web e como se preparar para as mudanças.</p>
-          <a href="#" class="read-more">Ler mais →</a>
-        </div>
-      </article>
+    <?php
+    $q = new WP_Query([
+      'posts_per_page'      => 3,
+      'ignore_sticky_posts' => 1,
+    ]);
+    ?>
 
-      <article class="blog-card">
-        <div class="blog-img">
-          <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/blog2.png' ); ?>" alt="IA Generativa: Como Implementar em sua Empresa">
-          <span class="category">Inteligência Artificial</span>
-        </div>
-        <div class="blog-content">
-          <div class="meta">
-            <span>👤 Maria Santos</span>
-            <span>📅 10 Set 2024</span>
-            <span>⏱ 8 min</span>
-          </div>
-          <h3>IA Generativa: Como Implementar em sua Empresa</h3>
-          <p>Um guia prático sobre como integrar inteligência artificial generativa nos processos empresariais para aumentar produtividade e inovação.</p>
-          <a href="#" class="read-more">Ler mais →</a>
-        </div>
-      </article>
+    <?php if ($q->have_posts()) : ?>
+      <div class="grid-blog">
+        <?php while ($q->have_posts()) : $q->the_post(); ?>
+          <article class="blog-card">
+            <div class="blog-img">
+              <a href="<?php the_permalink(); ?>" class="thumb">
+                <?php
+                  if (has_post_thumbnail()) {
+                    the_post_thumbnail('card', ['loading' => 'lazy']);
+                  }
+                ?>
+              </a>
+              <?php
+              // Mostra a 1ª categoria (opcional)
+              $cats = get_the_category();
+              if (!empty($cats)) {
+                echo '<span class="category">' . esc_html($cats[0]->name) . '</span>';
+              }
+              ?>
+            </div>
 
-      <article class="blog-card">
-        <div class="blog-img">
-          <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/blog3.png' ); ?>" alt="Segurança em Cloud: Melhores Práticas e Estratégias">
-          <span class="category">Cloud Computing</span>
-        </div>
-        <div class="blog-content">
-          <div class="meta">
-            <span>👤 Maria Santos</span>
-            <span>📅 10 Set 2024</span>
-            <span>⏱ 8 min</span>
-          </div>
-          <h3>Segurança em Cloud: Melhores Práticas e Estratégias</h3>
-          <p>Aprenda as estratégias essenciais para manter seus dados seguros na nuvem e implementar uma política de segurança robusta.</p>
-          <a href="#" class="read-more">Ler mais →</a>
-        </div>
-      </article>
-    </div>
+            <div class="blog-content">
+              <div class="meta">
+  <span class="meta-item">
+    <!-- ícone pessoa -->
+    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.418 0-8 2.239-8 5v1h16v-1c0-2.761-3.582-5-8-5Z"/>
+    </svg>
+    <?php the_author(); ?>
+  </span>
+
+  <span class="meta-item">
+    <!-- ícone calendário -->
+    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M7 2v3m10-3v3M3 9h18M5 6h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Z"/>
+    </svg>
+    <?php echo esc_html( date_i18n( 'j M Y', get_post_time( 'U', true ) ) ); ?>
+  </span>
+
+  <span class="meta-item">
+    <!-- ícone relógio -->
+    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 7v5l4 2M12 22a10 10 0 1 0-10-10 10 10 0 0 0 10 10Z"/>
+    </svg>
+    <?php echo esc_html( meu_tema_tempo_leitura() ); ?>
+  </span>
+</div>
+
+              <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+              <p><?php echo wp_trim_words(get_the_excerpt(), 28); ?></p>
+              <a href="<?php the_permalink(); ?>" class="read-more">Ler mais →</a>
+            </div>
+          </article>
+        <?php endwhile; wp_reset_postdata(); ?>
+      </div>
+    <?php else: ?>
+      <p>Nenhum post encontrado. Crie alguns em <strong>Posts</strong> no painel.</p>
+    <?php endif; ?>
 
     <div class="blog-actions">
-      <a href="#" class="btn-outline">Ver todos os artigos →</a>
+      <?php if ( get_option('page_for_posts') ) : ?>
+        <a href="<?php echo esc_url( get_permalink( get_option('page_for_posts') ) ); ?>" class="btn-outline">Ver todos os artigos →</a>
+      <?php endif; ?>
     </div>
   </div>
+
+
 </section>
+
 
 
 </main>
