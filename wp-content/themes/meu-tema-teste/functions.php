@@ -61,21 +61,28 @@ add_filter('get_custom_logo', function ($html) {
   return preg_replace('/(width|height)="\d*"\s/', '', $html);
 });
 
-// Tempo de leitura (ex.: "8 min")
-function meu_tema_tempo_leitura( $post_id = null, $wpm = 200 ) {
+// ===== Tempo de leitura (ex.: "8 min") =====
+function meu_tema_tempo_leitura($post_id = null, $wpm = 200) {
   $post_id = $post_id ?: get_the_ID();
   $content = get_post_field('post_content', $post_id);
-  $words   = str_word_count( wp_strip_all_tags( $content ) );
+  $words   = str_word_count(wp_strip_all_tags($content));
   $min     = max(1, ceil($words / $wpm));
   return sprintf(__('%d min', 'meu-tema-teste'), $min);
 }
 
-// === Shortcode: [blog_grid qty="3"] ===
-function meu_tema_blog_grid_shortcode( $atts = [] ) {
+// ===== Shortcode: [blog_grid qty="3"] =====
+function meu_tema_blog_grid_shortcode($atts = []) {
+  // garante que $atts exista mesmo se não for passado
+  if (!is_array($atts)) {
+    $atts = [];
+  }
+
+  // valores padrão
   $atts = shortcode_atts([
     'qty' => 3,
   ], $atts, 'blog_grid');
 
+  // Query de posts
   $q = new WP_Query([
     'post_type'           => 'post',
     'posts_per_page'      => intval($atts['qty']),
@@ -83,61 +90,42 @@ function meu_tema_blog_grid_shortcode( $atts = [] ) {
     'no_found_rows'       => true,
   ]);
 
-  ob_start();
-  ?>
+  ob_start(); ?>
+
   <div class="grid-blog">
-    <?php if ( $q->have_posts() ) : while ( $q->have_posts() ) : $q->the_post(); ?>
+    <?php if ($q->have_posts()) : while ($q->have_posts()) : $q->the_post(); ?>
       <article class="blog-card">
         <div class="blog-img">
           <a class="thumb" href="<?php the_permalink(); ?>">
-            <?php if ( has_post_thumbnail() ) the_post_thumbnail('card', ['loading'=>'lazy']); ?>
+            <?php if (has_post_thumbnail()) the_post_thumbnail('card', ['loading' => 'lazy']); ?>
           </a>
           <?php
             $cat = get_the_category();
-            if ( $cat ) {
-              echo '<span class="category">'.esc_html($cat[0]->name).'</span>';
+            if ($cat) {
+              echo '<span class="category">' . esc_html($cat[0]->name) . '</span>';
             }
           ?>
         </div>
 
         <div class="blog-content">
           <div class="meta">
-            <span>📅 <?php echo esc_html( date_i18n('j M Y', get_post_time('U', true)) ); ?></span>
-            <span>👤 <?php echo esc_html( get_the_author() ); ?></span>
-            <span>⏱ <?php echo esc_html( function_exists('meu_tema_tempo_leitura') ? meu_tema_tempo_leitura() : '' ); ?></span>
+            <span>📅 <?php echo esc_html(date_i18n('j M Y', get_post_time('U', true))); ?></span>
+            <span>👤 <?php echo esc_html(get_the_author()); ?></span>
+            <span>⏱ <?php echo esc_html(meu_tema_tempo_leitura()); ?></span>
           </div>
 
           <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-          <p><?php echo esc_html( wp_trim_words( get_the_excerpt(), 28, '…' ) ); ?></p>
+          <p><?php echo esc_html(wp_trim_words(get_the_excerpt(), 28, '…')); ?></p>
           <a class="read-more" href="<?php the_permalink(); ?>">Ler mais →</a>
         </div>
       </article>
-    <?php endwhile; else: ?>
+    <?php endwhile; else : ?>
       <p>Nenhum post encontrado.</p>
-    <?php endif; wp_reset_postdata(); ?>
+    <?php endif;
+    wp_reset_postdata(); ?>
   </div>
+
   <?php
   return ob_get_clean();
 }
 add_shortcode('blog_grid', 'meu_tema_blog_grid_shortcode');
-
-// Ex.: [blog_grid qty="6" cat="noticias" tag="tech"]
-$atts = shortcode_atts([
-  'qty' => 3,
-  'cat' => '',
-  'tag' => '',
-  'orderby' => 'date',
-  'order' => 'DESC',
-], $atts, 'blog_grid');
-
-$args = [
-  'post_type'           => 'post',
-  'posts_per_page'      => intval($atts['qty']),
-  'ignore_sticky_posts' => 1,
-  'no_found_rows'       => true,
-  'orderby'            => sanitize_text_field($atts['orderby']),
-  'order'              => sanitize_text_field($atts['order']),
-];
-if ($atts['cat']) $args['category_name'] = sanitize_title($atts['cat']);
-if ($atts['tag']) $args['tag'] = sanitize_title($atts['tag']);
-$q = new WP_Query($args);
