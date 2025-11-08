@@ -1,7 +1,9 @@
-<?php get_header(); ?>
-<?php echo "<!-- TEMPLATE: home.php (posts page) -->"; ?>
-
-
+<?php
+/**
+ * Template da Página de Posts (Blog) — home.php
+ */
+get_header();
+?>
 <main id="conteudo" class="archive-wrap">
 
   <!-- Cabeçalho do Blog -->
@@ -9,14 +11,18 @@
     <div class="container">
       <h1 class="archive-title">
         <?php
-          // Título da página de posts (se definida) ou “Blog”
           $posts_page_id = get_option('page_for_posts');
           echo esc_html( $posts_page_id ? get_the_title($posts_page_id) : __('Blog','meu-tema-teste') );
         ?>
       </h1>
       <?php
-        // descrição opcional
-        // echo '<p class="archive-desc">Últimos artigos do nosso time</p>';
+        // Se quiser, use o excerpt da página de posts como descrição:
+        if ( $posts_page_id ) {
+          $desc = get_the_excerpt( $posts_page_id );
+          if ( $desc ) {
+            echo '<p class="archive-desc">'. esc_html( $desc ) .'</p>';
+          }
+        }
       ?>
     </div>
   </header>
@@ -25,22 +31,25 @@
   <div class="container">
     <div class="grid-blog">
       <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
-        <article class="blog-card">
+        <article <?php post_class('blog-card'); ?>>
           <div class="blog-img">
             <a class="thumb" href="<?php the_permalink(); ?>">
               <?php
                 if ( has_post_thumbnail() ) {
                   the_post_thumbnail('card', ['loading'=>'lazy']);
                 } else {
-                  // fallback simples quando não tem thumb
-                  echo '<img src="'.esc_url( get_template_directory_uri().'/assets/img/blog-placeholder.png' ).'" alt="'.esc_attr(get_the_title()).'" loading="lazy">';
+                  $ph_rel  = 'assets/img/blog-placeholder.png';
+                  $ph_path = get_theme_file_path($ph_rel);
+                  if ( file_exists($ph_path) ) {
+                    echo '<img src="'. esc_url( get_theme_file_uri($ph_rel) ) .'" alt="'. esc_attr( get_the_title() ) .'" loading="lazy">';
+                  }
                 }
               ?>
             </a>
             <?php
               $cat = get_the_category();
               if ( $cat ) {
-                echo '<span class="category">'.esc_html($cat[0]->name).'</span>';
+                echo '<span class="category">'. esc_html($cat[0]->name) .'</span>';
               }
             ?>
           </div>
@@ -63,7 +72,7 @@
       <?php endif; ?>
     </div>
 
-    <nav class="pagination-wrap">
+    <nav class="pagination-wrap" aria-label="Paginação do blog">
       <?php
         the_posts_pagination([
           'mid_size'  => 2,
@@ -74,5 +83,4 @@
     </nav>
   </div>
 </main>
-
 <?php get_footer(); ?>
