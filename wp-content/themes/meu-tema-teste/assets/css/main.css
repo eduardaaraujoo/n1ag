@@ -1611,11 +1611,13 @@ main,
   display:flex; flex-wrap: wrap; gap:10px;
   color:#6b7280; font-size:.9rem; margin-bottom:10px;
 }
+
 .blog-content h3 {
   margin: 0 0 10px;
   color: var(--azul, #0b2c4a);
   font-size: 1.25rem;
 }
+
 .blog-content p { color:#414b57; margin:0 0 14px; line-height:1.6; }
 .blog-content .read-more {
   text-decoration:none; font-weight:700; color: var(--azul, #0b2c4a);
@@ -1627,8 +1629,12 @@ main,
   display:inline-block; margin:0 6px; padding:8px 12px;
   border:1px solid #e9ecf2; border-radius:8px; color:#0b2c4a;
 }
+
 .pagination .page-numbers.current {
-  background:#0b2c4a; color:#fff; border-color:#0b2c4a;
+   background:#0b2c4a;
+   color:#fff;
+   border-color:#0b2c4a;
+}
 
 
 /* === Barra de progresso (topo) === */
@@ -1756,7 +1762,7 @@ main,
 #respond input[type="submit"]:hover {
   background: #0737c8;
 }
-}
+
 /* ===== Header ===== */
 .site-header {
   background: #f6f7f9;
