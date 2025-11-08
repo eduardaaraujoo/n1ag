@@ -1815,3 +1815,26 @@ main,
 .site-header .btn:hover {
   background-color: #ffc833;
 }
+/* Botão hambúrguer */
+.nav-toggle{
+  appearance:none;border:0;background:transparent;cursor:pointer;
+  display:inline-flex;flex-direction:column;gap:6px;padding:10px;
+  position:relative;z-index:1001;color:#111;
+}
+.nav-toggle .bar{width:26px;height:2px;background:currentColor;display:block}
+
+/* Layout do menu */
+@media (max-width:1024px){
+  .site-nav{
+    position:fixed;left:0;right:0;top:60px;background:#fff;
+    transform:translateY(-120%);transition:transform .25s ease;
+    box-shadow:0 8px 24px rgba(0,0,0,.08);z-index:1000;
+  }
+  .site-nav.is-open{ transform:translateY(0) }
+  .site-nav .menu{list-style:none;margin:0;padding:16px;display:grid;gap:12px}
+}
+@media (min-width:1025px){
+  .nav-toggle{display:none}
+  .site-nav{position:static;transform:none !important;box-shadow:none}
+  .site-nav .menu{display:flex;gap:24px;margin:0;padding:0;list-style:none}
+}

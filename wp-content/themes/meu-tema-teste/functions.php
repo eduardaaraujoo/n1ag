@@ -15,37 +15,39 @@ add_action('after_setup_theme', function () {
   add_image_size('card', 640, 360, true);
 });
 
-// ===== Enfileirar CSS/JS =====
+// ===== Enfileirar CSS/JS (ÚNICA FUNÇÃO) =====
 function meu_tema_scripts() {
-  // style.css do tema
-  $style = get_stylesheet_directory() . '/style.css';
+  // style.css do tema (sempre)
+  $style_path = get_stylesheet_directory() . '/style.css';
   wp_enqueue_style(
     'meu-tema-style',
     get_stylesheet_uri(),
     [],
-    file_exists($style) ? filemtime($style) : null
+    file_exists($style_path) ? filemtime($style_path) : null
   );
 
-  // assets/css/main.css (seu CSS principal)
-  $main_css_path = get_theme_file_path('assets/css/main.css');
+  // assets/css/main.css (opcional)
+  $main_css_rel  = 'assets/css/main.css';
+  $main_css_path = get_theme_file_path($main_css_rel);
   if (file_exists($main_css_path)) {
     wp_enqueue_style(
       'meu-tema-main',
-      get_theme_file_uri('assets/css/main.css'),
-      ['meu-tema-style'],
+      get_theme_file_uri($main_css_rel),
+      ['meu-tema-style'],               // depende do style.css
       filemtime($main_css_path)
     );
   }
 
-  // JS opcional
-  $main_js_path = get_theme_file_path('assets/js/main.js');
+  // assets/js/main.js (opcional)
+  $main_js_rel  = 'assets/js/main.js';
+  $main_js_path = get_theme_file_path($main_js_rel);
   if (file_exists($main_js_path)) {
     wp_enqueue_script(
       'meu-tema-js',
-      get_theme_file_uri('assets/js/main.js'),
-      [],
+      get_theme_file_uri($main_js_rel),
+      [],                               // sem dependências (vanilla)
       filemtime($main_js_path),
-      true
+      true                              // no footer
     );
   }
 }
@@ -72,26 +74,17 @@ function meu_tema_tempo_leitura($post_id = null, $wpm = 200) {
 
 // ===== Shortcode: [blog_grid qty="3"] =====
 function meu_tema_blog_grid_shortcode($atts = []) {
-  // garante que $atts exista mesmo se não for passado
-  if (!is_array($atts)) {
-    $atts = [];
-  }
+  if (!is_array($atts)) $atts = [];
+  $atts = shortcode_atts(['qty' => 3], $atts, 'blog_grid');
 
-  // valores padrão
-  $atts = shortcode_atts([
-    'qty' => 3,
-  ], $atts, 'blog_grid');
-
-  // Query de posts
   $q = new WP_Query([
     'post_type'           => 'post',
-    'posts_per_page'      => intval($atts['qty']),
+    'posts_per_page'      => (int) $atts['qty'],
     'ignore_sticky_posts' => 1,
     'no_found_rows'       => true,
   ]);
 
   ob_start(); ?>
-
   <div class="grid-blog">
     <?php if ($q->have_posts()) : while ($q->have_posts()) : $q->the_post(); ?>
       <article class="blog-card">
@@ -99,12 +92,9 @@ function meu_tema_blog_grid_shortcode($atts = []) {
           <a class="thumb" href="<?php the_permalink(); ?>">
             <?php if (has_post_thumbnail()) the_post_thumbnail('card', ['loading' => 'lazy']); ?>
           </a>
-          <?php
-            $cat = get_the_category();
-            if ($cat) {
-              echo '<span class="category">' . esc_html($cat[0]->name) . '</span>';
-            }
-          ?>
+          <?php if ($cat = get_the_category()) : ?>
+            <span class="category"><?php echo esc_html($cat[0]->name); ?></span>
+          <?php endif; ?>
         </div>
 
         <div class="blog-content">
@@ -121,10 +111,8 @@ function meu_tema_blog_grid_shortcode($atts = []) {
       </article>
     <?php endwhile; else : ?>
       <p>Nenhum post encontrado.</p>
-    <?php endif;
-    wp_reset_postdata(); ?>
+    <?php endif; wp_reset_postdata(); ?>
   </div>
-
   <?php
   return ob_get_clean();
 }
