@@ -1,4 +1,6 @@
 <?php get_header(); ?>
+<?php echo "<!-- TEMPLATE: home.php (posts page) -->"; ?>
+
 
 <main id="conteudo" class="archive-wrap">
 
